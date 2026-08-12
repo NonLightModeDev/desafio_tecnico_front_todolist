@@ -9,8 +9,10 @@ class Task {
   }
 }
 
+
 /* Estado */
 const taskList = loadTaskList()
+
 
 /* localStorage */
 function saveTaskList() {
@@ -25,10 +27,11 @@ function loadTaskList() {
     return []
   }
 
-  Task.count = Number(localStorage.getItem('count'))
+  Task.count = Number(localStorage.getItem('count')) || 0
 
   return JSON.parse(data)
 }
+
 
 /* Cria a Tarefa */
 function createTaskElement(task) {
@@ -105,10 +108,10 @@ function createTask() {
   const taskInput = document.querySelector('#task-input')
   const task = new Task(taskInput.value.trim())
   taskInput.value = ''
-  createTaskElement(task)
 
   return task
 }
+
 
 /* Remove a tarefa da taskList */
 function removeTask(task) {
@@ -117,6 +120,7 @@ function removeTask(task) {
   saveTaskList()
   updateToDoStats()
 }
+
 
 /* Atualiza o status da tarefa */
 function updateTaskStatus(element, task, inputCheck) {
@@ -133,6 +137,7 @@ function updateTaskStatus(element, task, inputCheck) {
   updateToDoStats()
 }
 
+
 /* Filtra as tarefas */
 function filterTasks(filter) {
   const items = document.querySelectorAll('#task-list > li:not(#task-template)')
@@ -144,6 +149,7 @@ function filterTasks(filter) {
     item.hidden = !show
   })
 }
+
 
 /* Seleciona a opção de filtragem */
 function switchTab(tabs, tab) {
@@ -166,6 +172,7 @@ function switchTab(tabs, tab) {
   }
 }
 
+
 /* Carrega as tarefas já adicionadas ao carregar a página */
 function loadTasks() {
   taskList.forEach(task => {
@@ -173,6 +180,7 @@ function loadTasks() {
   })
   updateToDoStats()
 }
+
 
 /* Atualizar estatísticas */
 function updateToDoStats() {
@@ -187,17 +195,22 @@ function updateToDoStats() {
   document.querySelector('#total-tasks').textContent = totalCount
 }
 
+
 /* Adiciona escutadores de eventos */
 const form = document.querySelector('#task-form')
 const tabs = document.querySelectorAll('.task-tabs__tab')
 
 form.addEventListener('submit', e => {
   e.preventDefault()
+
   const task = createTask()
+
   taskList.push(task)
   saveTaskList()
-  const tabAll = document.querySelector('#tab-all')
-  switchTab(tabs, tabAll)
+  createTaskElement(task)
+
+  switchTab(tabs, document.querySelector('#tab-all'))
+
   updateToDoStats()
 })
 
@@ -206,6 +219,7 @@ tabs.forEach(tab => {
     switchTab(tabs, tab)
   })
 })
+
 
 /* Carrega tarefas ao carregar a página */
 loadTasks()
