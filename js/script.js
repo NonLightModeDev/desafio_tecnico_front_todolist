@@ -65,6 +65,7 @@ function createTaskElement(task) {
 
   btnEditTask.addEventListener('click', e => {
     description.disabled = false
+    description.classList.add('task__description--focused')
     description.focus()
     btnSaveChanges.hidden = false
     btnCancelChanges.hidden = false
@@ -74,6 +75,7 @@ function createTaskElement(task) {
   btnCancelChanges.addEventListener('click', e => {
     description.value = task.description
     description.disabled = true
+    description.classList.remove('task__description--focused')
     description.blur()
     btnSaveChanges.hidden = true
     btnCancelChanges.hidden = true
@@ -81,13 +83,17 @@ function createTaskElement(task) {
   })
 
   btnSaveChanges.addEventListener('click', e => {
-    task.description = description.value
-    saveTaskList()
-    description.disabled = true
-    description.blur()
-    btnSaveChanges.hidden = true
-    btnCancelChanges.hidden = true
-    btnEditTask.hidden = false
+    description.value = description.value.trim()
+    if (description.value !== '') {
+      task.description = description.value
+      saveTaskList()
+      description.disabled = true
+      description.classList.remove('task__description--focused')
+      description.blur()
+      btnSaveChanges.hidden = true
+      btnCancelChanges.hidden = true
+      btnEditTask.hidden = false
+    }
   })
 
   element.hidden = false
