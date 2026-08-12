@@ -9,9 +9,10 @@ class Task {
   }
 }
 
+
 /* Estado */
 const taskList = loadTaskList()
-console.log(taskList)
+
 
 /* localStorage */
 function saveTaskList() {
@@ -31,6 +32,7 @@ function loadTaskList() {
   return JSON.parse(data)
 }
 
+
 /* Cria a Tarefa */
 function createTaskElement(task) {
   const template = document.querySelector('#task-template')
@@ -45,7 +47,7 @@ function createTaskElement(task) {
 
   article.dataset.id = task.id
   article.dataset.status = task.status
-  description.textContent = task.description
+  description.value = task.description
 
   if (task.status === 'completed') {
     article.classList.add('task--completed')
@@ -100,6 +102,7 @@ function updateTaskStatus(element, task, inputCheck) {
   updateToDoStats()
 }
 
+
 /* Filtra as tarefas */
 function filterTasks(filter) {
   const items = document.querySelectorAll('#task-list > li:not(#task-template)')
@@ -111,6 +114,7 @@ function filterTasks(filter) {
     item.hidden = !show
   })
 }
+
 
 /* Seleciona a opção de filtragem */
 function switchTab(tabs, tab) {
@@ -176,4 +180,5 @@ tabs.forEach(tab => {
 })
 
 
+/* Carrega tarefas ao carregar a página */
 loadTasks()

@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=check_box,list,schedule,check_circle,add,edit,delete,checklist&display=block"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=check_box,list,schedule,check_circle,add,edit,delete,checklist,save,cancel&display=block"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./css/style.min.css" />
@@ -139,12 +139,18 @@
                 <li id="task-template" hidden>
                   <article class="task">
                     <input type="checkbox" class="task__input-check" />
-                    <p class="task__description"></p>
+                    <input type="text" class="task__description" disabled>
                     <div class="task__actions">
-                      <button class="task__actions__button edit-task">
+                      <button class="task__actions__button save-changes" aria-label="Salvar alteração" hidden>
+                        <span class="material-symbols-outlined">save</span>
+                      </button>
+                      <button class="task__actions__button cancel-changes" aria-label="Cancelar alteração" hidden>
+                        <span class="material-symbols-outlined">cancel</span>
+                      </button>
+                      <button class="task__actions__button edit-task" aria-label="Editar tarefa">
                         <span class="material-symbols-outlined">edit</span>
                       </button>
-                      <button class="task__actions__button remove-task">
+                      <button class="task__actions__button remove-task" aria-label="Apagar tarefa">
                         <span class="material-symbols-outlined">delete</span>
                       </button>
                     </div>

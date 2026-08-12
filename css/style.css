@@ -20,7 +20,7 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   html {
     font-size: 12px;
   }
@@ -310,6 +310,10 @@ p {
   flex: 1;
   color: #121a2b;
   font-weight: 500;
+  font-size: 1.1rem;
+  background-color: transparent;
+  border: none;
+  padding: 0.25rem;
 }
 
 .task--completed .task__description {
@@ -340,5 +344,13 @@ p {
 }
 
 .remove-task {
-  color: #d61818;
+  color: #DC2626;
+}
+
+.cancel-changes {
+  color: #64748B;
+}
+
+.save-changes {
+  color: #359d59;
 }
