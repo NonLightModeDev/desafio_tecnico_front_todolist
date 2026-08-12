@@ -9,10 +9,8 @@ class Task {
   }
 }
 
-
 /* Estado */
 const taskList = loadTaskList()
-
 
 /* localStorage */
 function saveTaskList() {
@@ -32,7 +30,6 @@ function loadTaskList() {
   return JSON.parse(data)
 }
 
-
 /* Cria a Tarefa */
 function createTaskElement(task) {
   const template = document.querySelector('#task-template')
@@ -44,6 +41,9 @@ function createTaskElement(task) {
   const inputCheck = element.querySelector('.task__input-check')
   const description = element.querySelector('.task__description')
   const btnRemoveTask = element.querySelector('.remove-task')
+  const btnEditTask = element.querySelector('.edit-task')
+  const btnSaveChanges = element.querySelector('.save-changes')
+  const btnCancelChanges = element.querySelector('.cancel-changes')
 
   article.dataset.id = task.id
   article.dataset.status = task.status
@@ -63,6 +63,33 @@ function createTaskElement(task) {
     element.remove()
   })
 
+  btnEditTask.addEventListener('click', e => {
+    description.disabled = false
+    description.focus()
+    btnSaveChanges.hidden = false
+    btnCancelChanges.hidden = false
+    btnEditTask.hidden = true
+  })
+
+  btnCancelChanges.addEventListener('click', e => {
+    description.value = task.description
+    description.disabled = true
+    description.blur()
+    btnSaveChanges.hidden = true
+    btnCancelChanges.hidden = true
+    btnEditTask.hidden = false
+  })
+
+  btnSaveChanges.addEventListener('click', e => {
+    task.description = description.value
+    saveTaskList()
+    description.disabled = true
+    description.blur()
+    btnSaveChanges.hidden = true
+    btnCancelChanges.hidden = true
+    btnEditTask.hidden = false
+  })
+
   element.hidden = false
 
   document.querySelector('#task-list').append(element)
@@ -77,7 +104,6 @@ function createTask() {
   return task
 }
 
-
 /* Remove a tarefa da taskList */
 function removeTask(task) {
   const index = taskList.findIndex(t => t.id === task.id)
@@ -85,7 +111,6 @@ function removeTask(task) {
   saveTaskList()
   updateToDoStats()
 }
-
 
 /* Atualiza o status da tarefa */
 function updateTaskStatus(element, task, inputCheck) {
@@ -102,7 +127,6 @@ function updateTaskStatus(element, task, inputCheck) {
   updateToDoStats()
 }
 
-
 /* Filtra as tarefas */
 function filterTasks(filter) {
   const items = document.querySelectorAll('#task-list > li:not(#task-template)')
@@ -114,7 +138,6 @@ function filterTasks(filter) {
     item.hidden = !show
   })
 }
-
 
 /* Seleciona a opção de filtragem */
 function switchTab(tabs, tab) {
@@ -137,7 +160,6 @@ function switchTab(tabs, tab) {
   }
 }
 
-
 /* Carrega as tarefas já adicionadas ao carregar a página */
 function loadTasks() {
   taskList.forEach(task => {
@@ -146,18 +168,18 @@ function loadTasks() {
   updateToDoStats()
 }
 
-
 /* Atualizar estatísticas */
 function updateToDoStats() {
   const pendingCount = taskList.filter(task => task.status === 'pending').length
-  const completedCount = taskList.filter(task => task.status === 'completed').length
+  const completedCount = taskList.filter(
+    task => task.status === 'completed'
+  ).length
   const totalCount = taskList.length
 
   document.querySelector('#pending-tasks').textContent = pendingCount
   document.querySelector('#completed-tasks').textContent = completedCount
   document.querySelector('#total-tasks').textContent = totalCount
 }
-
 
 /* Adiciona escutadores de eventos */
 const form = document.querySelector('#task-form')
@@ -178,7 +200,6 @@ tabs.forEach(tab => {
     switchTab(tabs, tab)
   })
 })
-
 
 /* Carrega tarefas ao carregar a página */
 loadTasks()
