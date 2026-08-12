@@ -81,6 +81,7 @@ function removeTask(task) {
   const index = taskList.findIndex(t => t.id === task.id)
   taskList.splice(index, 1)
   saveTaskList()
+  updateToDoStats()
 }
 
 
@@ -96,6 +97,7 @@ function updateTaskStatus(element, task, inputCheck) {
 
   element.dataset.status = task.status
   saveTaskList()
+  updateToDoStats()
 }
 
 /* Filtra as tarefas */
@@ -131,10 +133,25 @@ function switchTab(tabs, tab) {
   }
 }
 
+
+/* Carrega as tarefas já adicionadas ao carregar a página */
 function loadTasks() {
   taskList.forEach(task => {
     createTaskElement(task)
   })
+  updateToDoStats()
+}
+
+
+/* Atualizar estatísticas */
+function updateToDoStats() {
+  const pendingCount = taskList.filter(task => task.status === 'pending').length
+  const completedCount = taskList.filter(task => task.status === 'completed').length
+  const totalCount = taskList.length
+
+  document.querySelector('#pending-tasks').textContent = pendingCount
+  document.querySelector('#completed-tasks').textContent = completedCount
+  document.querySelector('#total-tasks').textContent = totalCount
 }
 
 
@@ -149,6 +166,7 @@ form.addEventListener('submit', e => {
   saveTaskList()
   const tabAll = document.querySelector('#tab-all')
   switchTab(tabs, tabAll)
+  updateToDoStats()
 })
 
 tabs.forEach(tab => {
