@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=check_box,list,schedule,check_circle,add,edit,delete,checklist,save,cancel&display=block"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/style.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/script.js" defer></script>
   </head>
   <body>
@@ -139,7 +139,7 @@
                 <li id="task-template" hidden>
                   <article class="task">
                     <input type="checkbox" class="task__input-check" aria-label="Marcar tarefa como concluída"/>
-                    <input type="text" class="task__description" aria-label="Tarefa" required disabled>
+                    <p type="text" class="task__description" aria-label="Tarefa" contenteditable="false">
                     <div class="task__actions">
                       <button class="task__actions__button save-changes" aria-label="Salvar alteração" hidden>
                         <span class="material-symbols-outlined">save</span>

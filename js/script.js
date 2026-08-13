@@ -9,10 +9,8 @@ class Task {
   }
 }
 
-
 /* Estado */
 const taskList = loadTaskList()
-
 
 /* localStorage */
 function saveTaskList() {
@@ -32,7 +30,6 @@ function loadTaskList() {
   return JSON.parse(data)
 }
 
-
 /* Cria a Tarefa */
 function createTaskElement(task) {
   const template = document.querySelector('#task-template')
@@ -50,7 +47,7 @@ function createTaskElement(task) {
 
   article.dataset.id = task.id
   article.dataset.status = task.status
-  description.value = task.description
+  description.textContent = task.description
 
   if (task.status === 'completed') {
     article.classList.add('task--completed')
@@ -67,35 +64,41 @@ function createTaskElement(task) {
   })
 
   btnEditTask.addEventListener('click', e => {
-    description.disabled = false
+    article.classList.add('task--edition')
+    description.setAttribute('contenteditable', true)
     description.classList.add('task__description--focused')
     description.focus()
     btnSaveChanges.hidden = false
     btnCancelChanges.hidden = false
     btnEditTask.hidden = true
+    btnRemoveTask.hidden = true
   })
 
   btnCancelChanges.addEventListener('click', e => {
-    description.value = task.description
-    description.disabled = true
+    description.textContent = task.description
+    article.classList.remove('task--edition')
+    description.setAttribute('contenteditable', false)
     description.classList.remove('task__description--focused')
     description.blur()
     btnSaveChanges.hidden = true
     btnCancelChanges.hidden = true
     btnEditTask.hidden = false
+    btnRemoveTask.hidden = false
   })
 
   btnSaveChanges.addEventListener('click', e => {
-    description.value = description.value.trim()
-    if (description.value !== '') {
-      task.description = description.value
+    description.textContent = description.textContent.trim()
+    if (description.textContent !== '') {
+      task.description = description.textContent
       saveTaskList()
-      description.disabled = true
+      article.classList.remove('task--edition')
+      description.setAttribute('contenteditable', false)
       description.classList.remove('task__description--focused')
       description.blur()
       btnSaveChanges.hidden = true
       btnCancelChanges.hidden = true
       btnEditTask.hidden = false
+      btnRemoveTask.hidden = false
     }
   })
 
@@ -112,7 +115,6 @@ function createTask() {
   return task
 }
 
-
 /* Remove a tarefa da taskList */
 function removeTask(task) {
   const index = taskList.findIndex(t => t.id === task.id)
@@ -120,7 +122,6 @@ function removeTask(task) {
   saveTaskList()
   updateToDoStats()
 }
-
 
 /* Atualiza o status da tarefa */
 function updateTaskStatus(element, task, inputCheck) {
@@ -137,7 +138,6 @@ function updateTaskStatus(element, task, inputCheck) {
   updateToDoStats()
 }
 
-
 /* Filtra as tarefas */
 function filterTasks(filter) {
   const items = document.querySelectorAll('#task-list > li:not(#task-template)')
@@ -149,7 +149,6 @@ function filterTasks(filter) {
     item.hidden = !show
   })
 }
-
 
 /* Seleciona a opção de filtragem */
 function switchTab(tabs, tab) {
@@ -172,7 +171,6 @@ function switchTab(tabs, tab) {
   }
 }
 
-
 /* Carrega as tarefas já adicionadas ao carregar a página */
 function loadTasks() {
   taskList.forEach(task => {
@@ -180,7 +178,6 @@ function loadTasks() {
   })
   updateToDoStats()
 }
-
 
 /* Atualizar estatísticas */
 function updateToDoStats() {
@@ -194,7 +191,6 @@ function updateToDoStats() {
   document.querySelector('#completed-tasks').textContent = completedCount
   document.querySelector('#total-tasks').textContent = totalCount
 }
-
 
 /* Adiciona escutadores de eventos */
 const form = document.querySelector('#task-form')
@@ -219,7 +215,6 @@ tabs.forEach(tab => {
     switchTab(tabs, tab)
   })
 })
-
 
 /* Carrega tarefas ao carregar a página */
 loadTasks()
